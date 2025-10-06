@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
-import { locations } from '../data/carsData'
 import DatePicker from 'react-datepicker'
-import { X, Calendar, User, Phone, Mail, CreditCard, Check, Banknote, Smartphone } from 'lucide-react'
+import { X, Calendar, Mail, CreditCard, Check, Banknote, Smartphone } from 'lucide-react'
 import odooAPI from '../services/odooAPI'
 
 const BookingModal = ({ car, onClose }) => {
@@ -15,6 +14,8 @@ const BookingModal = ({ car, onClose }) => {
   const [isSuccess, setIsSuccess] = useState(false)
   const [bookingId, setBookingId] = useState(null)
   const [error, setError] = useState(null)
+  const [pickupLocation, setPickupLocation] = useState('')
+  const [dropLocation, setDropLocation] = useState('')
 
   const calculateDays = () => {
     if (pickupDate && returnDate) {
@@ -57,8 +58,8 @@ const BookingModal = ({ car, onClose }) => {
         phone: data.phone,
         mobile: data.phone, // Using phone as mobile
         address: data.address || '',
-        pickupLocation: data.pickupLocation || car.location,
-        dropLocation: data.dropLocation || 'To be confirmed',
+        pickupLocation: pickupLocation || car.location,
+        dropLocation: dropLocation || 'To be confirmed',
         pickupDate: formatDateForOdoo(pickupDate),
         returnDate: formatDateForOdoo(returnDate),
         vehicleType: `${car.make} ${car.model}`,
@@ -235,10 +236,9 @@ const BookingModal = ({ car, onClose }) => {
                 <h4>व्यक्तिगत जानकारी / Personal Information</h4>
                 <div className="form-row">
                   <div className="form-group">
-                    <User className="form-icon" size={18} />
                     <input
                       type="text"
-                      placeholder="पूरा नाम / Full Name"
+                      placeholder="Enter your name"
                       {...register('fullName', { required: 'Name is required' })}
                     />
                     {errors.fullName && <span className="error">{errors.fullName.message}</span>}
@@ -260,10 +260,9 @@ const BookingModal = ({ car, onClose }) => {
                   </div>
                 </div>
                 <div className="form-group">
-                  <Phone className="form-icon" size={18} />
                   <input
                     type="tel"
-                    placeholder="मोबाइल नंबर / Mobile Number"
+                    placeholder="Enter your phone number"
                     {...register('phone', { required: 'Mobile number is required' })}
                   />
                   {errors.phone && <span className="error">{errors.phone.message}</span>}
@@ -274,20 +273,20 @@ const BookingModal = ({ car, onClose }) => {
                 <h4>पिकअप / Drop Locations</h4>
                 <div className="form-row">
                   <div className="form-group">
-                    <select {...register('pickupLocation')} defaultValue={car.location}>
-                      <option value="">Select pickup location</option>
-                      {locations.map((loc) => (
-                        <option key={loc} value={loc}>{loc}</option>
-                      ))}
-                    </select>
+                    <input
+                      type="text"
+                      placeholder="Enter pickup location (Google Maps will be enabled soon)"
+                      value={pickupLocation}
+                      onChange={(e) => setPickupLocation(e.target.value)}
+                    />
                   </div>
                   <div className="form-group">
-                    <select {...register('dropLocation')}>
-                      <option value="">Select drop location</option>
-                      {locations.map((loc) => (
-                        <option key={loc} value={loc}>{loc}</option>
-                      ))}
-                    </select>
+                    <input
+                      type="text"
+                      placeholder="Enter drop location (Google Maps will be enabled soon)"
+                      value={dropLocation}
+                      onChange={(e) => setDropLocation(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
