@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import DatePicker from 'react-datepicker'
 import Select from 'react-select'
 import { MapPin, Calendar, Phone, User, MessageSquare } from 'lucide-react'
-import { locations, carTypes } from '../data/carsData'
+import { carTypes } from '../data/carsData'
 import odooAPI from '../services/odooAPI'
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -19,10 +19,18 @@ const Hero = ({ onSearch }) => {
   const watchedDropLocation = watch('dropLocation')
   const watchedCarType = watch('carType')
 
-  const locationOptions = locations.map(location => ({
-    value: location,
-    label: location
-  }))
+  // Temporary location options until Google Maps is enabled
+  const locationOptions = [
+    { value: 'Delhi', label: 'Delhi' },
+    { value: 'Mumbai', label: 'Mumbai' },
+    { value: 'Bangalore', label: 'Bangalore' },
+    { value: 'Chennai', label: 'Chennai' },
+    { value: 'Kolkata', label: 'Kolkata' },
+    { value: 'Pune', label: 'Pune' },
+    { value: 'Jaipur', label: 'Jaipur' },
+    { value: 'Ahmedabad', label: 'Ahmedabad' },
+    { value: 'Hyderabad', label: 'Hyderabad' }
+  ]
 
   const onSubmit = async (data) => {
     console.log('Form submission started:', data) // Debug log
