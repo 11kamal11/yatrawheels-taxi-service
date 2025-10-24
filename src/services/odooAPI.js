@@ -2,13 +2,8 @@ import { ODOO_CONFIG, ODOO_MODELS } from '../config/odooConfig'
 
 class OdooAPIService {
   constructor() {
-    // In production use VITE_ODOO_BASE_URL if provided.
-    // In development always use the local proxy at /api/odoo to avoid CORS/credentials issues
-    if (import.meta.env.PROD) {
-      this.baseURL = import.meta.env.VITE_ODOO_BASE_URL || ''
-    } else {
-      this.baseURL = '/api/odoo'
-    }
+    // Always use /api/odoo for API calls, as rewrites/proxy handle the routing
+    this.baseURL = '/api/odoo'
     this.sessionId = null
     this.isAuthenticated = false
     this.cookies = null // Store session cookies
