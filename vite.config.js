@@ -1,21 +1,18 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? '/shop/' : '/',
+  base: '/', // absolute paths for Vercel deployment
   server: {
-    host: '0.0.0.0', // Accept connections from any IP address
+    host: '0.0.0.0',
     port: 3000,
     open: true,
     proxy: {
       '/api/odoo': {
-  target: 'https://yatrawheels.odoo.com',
+        target: 'https://yatrawheels.odoo.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/odoo/, ''),
-        // Ensure cookies sent by Odoo are rewritten to the dev server origin
-        // so credentials: 'include' works in the browser during development.
         cookieDomainRewrite: '',
         secure: false,
         configure: (proxy, _options) => {
