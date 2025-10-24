@@ -68,7 +68,7 @@ const AboutPage = () => {
               </ul>
             </motion.div>
 
-            <motion.div 
+            <motion.div     
               className="about-image"
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
